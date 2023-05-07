@@ -11,3 +11,30 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+class ProductStock(models.Model):
+    product =  models.ForeignKey(Product, on_delete=models.CASCADE,null=True,blank=True)
+    instock = models.DecimalField(default=1, max_digits=10, decimal_places=2)
+    sold = models.DecimalField(default=1, max_digits=10, decimal_places=2)
+
+    def __str__(self) -> str:
+        return self.product.name + f'(instock : {self.instock} sold : {self.sold})'
+    
+class Staff(models.Model):
+    name = models.CharField(max_length=200)
+    tel = models.CharField(max_length=200)
+    email = models.CharField(max_length=200)
+
+    def __str__(self) -> str:
+        return self.name
+
+class ContactUs(models.Model):
+    name = models.CharField(max_length=200, verbose_name='ชื่อผู้ถาม')
+    title = models.CharField(max_length=200, verbose_name='ชื่อปัญหา(name)')
+    detail = models.TextField(null=True, blank=True, verbose_name='รายละเอียดปัญหา')
+    email = models.CharField(max_length=200, verbose_name='อีเมลผู้ติดต่อ')
+    done = models.BooleanField(default=False, verbose_name='แก้ปัญหาจบแล้วยัง?')
+    summary = models.TextField(null=True, blank=True, verbose_name='สรุปว่าแก้ปัญหาอย่างไร')
+
+    def __str__(self):
+        return self.title
